@@ -1,5 +1,3 @@
-export * from '../packages/StorageBucketApi';
-export * from '../packages/StorageFileApi';
-export * from './types';
-export * from './constants';
+export { FunctionsClient } from './FunctionsClient';
+export { type FunctionInvokeOptions, FunctionsError, FunctionsFetchError, FunctionsHttpError, FunctionsRelayError, FunctionRegion, type FunctionsResponse, } from './types';
 //# sourceMappingURL=index.d.ts.map
