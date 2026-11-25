@@ -1,70 +1,74 @@
 {
-  "name": "@supabase/storage-js",
-  "version": "2.7.1",
-  "description": "Isomorphic storage client for Supabase.",
+  "name": "ws",
+  "version": "8.22.1",
+  "description": "Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js",
   "keywords": [
-    "javascript",
-    "typescript",
-    "supabase"
+    "HyBi",
+    "Push",
+    "RFC-6455",
+    "WebSocket",
+    "WebSockets",
+    "real-time"
   ],
-  "homepage": "https://github.com/supabase/storage-js",
-  "bugs": "https://github.com/supabase/storage-js/issues",
+  "homepage": "https://github.com/websockets/ws",
+  "bugs": "https://github.com/websockets/ws/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/websockets/ws.git"
+  },
+  "author": "Einar Otto Stangvik <einaros@gmail.com> (http://2x.io)",
   "license": "MIT",
-  "author": "Supabase",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "browser": "./browser.js",
+      "import": "./wrapper.mjs",
+      "require": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "browser": "browser.js",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "files": [
-    "dist",
-    "src"
+    "browser.js",
+    "index.js",
+    "lib/*.js",
+    "wrapper.mjs"
   ],
-  "main": "dist/main/index.js",
-  "module": "dist/module/index.js",
-  "types": "dist/module/index.d.ts",
-  "sideEffects": false,
-  "repository": "supabase/storage-js",
   "scripts": {
-    "clean": "rimraf dist docs/v2",
-    "format": "prettier --write \"{src,test}/**/*.ts\"",
-    "build": "genversion src/lib/version.ts --es6 && run-s clean format build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
-    "build:umd": "webpack",
-    "types-generate": "dts-gen -m '@supabase/storage-js' -s",
-    "test": "run-s test:clean test:infra test:suite test:clean",
-    "test:suite": "jest --runInBand",
-    "test:infra": "cd infra && docker compose down && docker compose up -d --build && sleep 10",
-    "test:clean": "cd infra && docker compose down --remove-orphans",
-    "docs": "typedoc --entryPoints src/index.ts --out docs/v2 --entryPoints src/packages/* --excludePrivate --excludeProtected",
-    "docs:json": "typedoc --json docs/v2/spec.json --entryPoints src/index.ts --entryPoints src/packages/* --excludePrivate --excludeExternals --excludeProtected"
+    "test": "nyc --reporter=lcov --reporter=text mocha --throw-deprecation test/*.test.js",
+    "integration": "mocha --throw-deprecation test/*.integration.js",
+    "lint": "eslint . && prettier --check --ignore-path .gitignore \"**/*.{json,md,yaml,yml}\""
   },
-  "dependencies": {
-    "@supabase/node-fetch": "^2.6.14"
+  "peerDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": ">=5.0.2"
   },
-  "devDependencies": {
-    "@types/jest": "^26.0.13",
-    "form-data": "^4.0.0",
-    "genversion": "^3.0.1",
-    "husky": "^4.3.0",
-    "jest": "^29.0.0",
-    "jest-environment-jsdom": "^29.5.0",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.1.2",
-    "pretty-quick": "^3.1.0",
-    "rimraf": "^3.0.2",
-    "semantic-release-plugin-update-version-in-files": "^1.1.0",
-    "ts-jest": "^29.0.0",
-    "ts-loader": "^9.4.2",
-    "typedoc": "^0.22.16",
-    "typescript": "^4.6.3",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
+  "peerDependenciesMeta": {
+    "bufferutil": {
+      "optional": true
+    },
+    "utf-8-validate": {
+      "optional": true
     }
   },
-  "jsdelivr": "dist/umd/supabase.js",
-  "unpkg": "dist/umd/supabase.js",
-  "publishConfig": {
-    "access": "public"
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "benchmark": "^2.1.4",
+    "bufferutil": "^4.0.1",
+    "eslint": "^10.0.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "globals": "^17.0.0",
+    "mocha": "^8.4.0",
+    "nyc": "^15.0.0",
+    "prettier": "^3.0.0",
+    "utf-8-validate": "^6.0.0"
+  },
+  "allowScripts": {
+    "bufferutil": true,
+    "utf-8-validate": true
   }
 }
