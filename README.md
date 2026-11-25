@@ -1,157 +1,71 @@
-# `storage-js`
+# PediCare – Pediatric Clinic Office Automation System
 
-JS Client library to interact with Supabase Storage.
+A web-based office automation system designed to simplify and digitize the daily operations of a pediatric doctor's office.
 
-- Documentation: https://supabase.io/docs/reference/javascript/storage-createbucket
+📌 About the Project
 
-## Quick Start Guide
+PediCare is a clinic management platform developed as part of the **CSE 360 – Introduction to Software Engineering** course. It aims to improve the efficiency of pediatric healthcare services by providing a centralized system for managing patients, appointments, medical records, and clinic operations.
 
-### Installing the module
+The platform offers dedicated dashboards for different clinic staff members, ensuring organized workflows and better coordination.
+
+✨ Key Features
+
+- **Doctor Dashboard:** Manage patient information, appointments, and clinical activities.
+- **Nurse Dashboard:** Access patient details and assist with patient care workflows.
+- **Receptionist Dashboard:** Handle patient registration and appointment scheduling.
+- **Admin Dashboard:** Manage clinic operations and oversee system activities.
+- **Patient Management:** Maintain organized patient information.
+- **Appointment Management:** Simplify appointment scheduling and tracking.
+- **User-Friendly Interface:** Clean and intuitive design for efficient navigation.
+
+🛠️ Technology Stack
+
+Update this section with the technologies used in the project.
+
+- Frontend: [Add technology]
+- Backend: [Add technology]
+- Database: [Add database]
+- Development Tools: Git, GitHub, [Other tools]
+
+🚀 Getting Started
+
+1. Clone the Repository
 
 ```bash
-npm install @supabase/storage-js
+git clone <YOUR_REPOSITORY_URL>
 ```
 
-### Connecting to the storage backend
+2. Navigate to the Project Directory
 
-```js
-import { StorageClient } from '@supabase/storage-js'
-
-const STORAGE_URL = 'https://<project_ref>.supabase.co/storage/v1'
-const SERVICE_KEY = '<service_role>' //! service key, not anon key
-
-const storageClient = new StorageClient(STORAGE_URL, {
-  apikey: SERVICE_KEY,
-  Authorization: `Bearer ${SERVICE_KEY}`,
-})
+```bash
+cd pedicare-site
 ```
 
-### Handling resources
+3. Install Dependencies
 
-#### Handling Storage Buckets
+```bash
+npm install
+```
 
-- Create a new Storage bucket:
+4. Start the Development Server
 
-  ```js
-  const { data, error } = await storageClient.createBucket(
-    'test_bucket', // Bucket name (must be unique)
-    { public: false } // Bucket options
-  )
-  ```
+```bash
+npm run dev
+```
 
-- Retrieve the details of an existing Storage bucket:
+Open the local URL displayed in your terminal to access the application.
 
-  ```js
-  const { data, error } = await storageClient.getBucket('test_bucket')
-  ```
+🎯 Project Objective
 
-- Update a new Storage bucket:
+The primary objective of PediCare is to modernize pediatric clinic administration by reducing manual paperwork, improving staff coordination, organizing patient information, and making everyday clinic operations more efficient.
 
-  ```js
-  const { data, error } = await storageClient.updateBucket(
-    'test_bucket', // Bucket name
-    { public: false } // Bucket options
-  )
-  ```
+🎓 Academic Information
 
-- Remove all objects inside a single bucket:
+- **Course:** CSE 360 – Introduction to Software Engineering
+- **Degree:** B.E. Computer Science & Technology
+- **Project:** Office Automation System for Pediatric Doctor's Office
 
-  ```js
-  const { data, error } = await storageClient.emptyBucket('test_bucket')
-  ```
+👥 Contributors
 
-- Delete an existing bucket (a bucket can't be deleted with existing objects inside it):
-
-  ```js
-  const { data, error } = await storageClient.deleteBucket('test_bucket')
-  ```
-
-- Retrieve the details of all Storage buckets within an existing project:
-
-  ```js
-  const { data, error } = await storageClient.listBuckets()
-  ```
-
-#### Handling Files
-
-- Upload a file to an existing bucket:
-
-  ```js
-  const fileBody = ... // load your file here
-
-  const { data, error } = await storageClient.from('bucket').upload('path/to/file', fileBody)
-  ```
-
-  > Note:  
-  > The path in `data.Key` is prefixed by the bucket ID and is not the value which should be passed to the `download` method in order to fetch the file.  
-  > To fetch the file via the `download` method, use `data.path` and `data.bucketId` as follows:
-  >
-  > ```javascript
-  > const { data, error } = await storageClient.from('bucket').upload('/folder/file.txt', fileBody)
-  > // check for errors
-  > const { data2, error2 } = await storageClient.from(data.bucketId).download(data.path)
-  > ```
-
-  > Note: The `upload` method also accepts a map of optional parameters. For a complete list see the [Supabase API reference](https://supabase.com/docs/reference/javascript/storage-from-upload).
-
-- Download a file from an exisiting bucket:
-
-  ```js
-  const { data, error } = await storageClient.from('bucket').download('path/to/file')
-  ```
-
-- List all the files within a bucket:
-
-  ```js
-  const { data, error } = await storageClient.from('bucket').list('folder')
-  ```
-
-  > Note: The `list` method also accepts a map of optional parameters. For a complete list see the [Supabase API reference](https://supabase.com/docs/reference/javascript/storage-from-list).
-
-- Replace an existing file at the specified path with a new one:
-
-  ```js
-  const fileBody = ... // load your file here
-
-  const { data, error } = await storageClient
-    .from('bucket')
-    .update('path/to/file', fileBody)
-  ```
-
-  > Note: The `upload` method also accepts a map of optional parameters. For a complete list see the [Supabase API reference](https://supabase.com/docs/reference/javascript/storage-from-upload).
-
-- Move an existing file:
-
-  ```js
-  const { data, error } = await storageClient
-    .from('bucket')
-    .move('old/path/to/file', 'new/path/to/file')
-  ```
-
-- Delete files within the same bucket:
-
-  ```js
-  const { data, error } = await storageClient.from('bucket').remove(['path/to/file'])
-  ```
-
-- Create signed URL to download file without requiring permissions:
-
-  ```js
-  const expireIn = 60
-
-  const { data, error } = await storageClient
-    .from('bucket')
-    .createSignedUrl('path/to/file', expireIn)
-  ```
-
-- Retrieve URLs for assets in public buckets:
-
-  ```js
-  const { data, error } = await storageClient.from('public-bucket').getPublicUrl('path/to/file')
-  ```
-
-## Sponsors
-
-We are building the features of Firebase using enterprise-grade, open source products. We support existing communities wherever possible, and if the products don’t exist we build them and open source them ourselves. Thanks to these sponsors who are making the OSS ecosystem better for everyone.
-
-[![New Sponsor](https://user-images.githubusercontent.com/10214025/90518111-e74bbb00-e198-11ea-8f88-c9e3c1aa4b5b.png)](https://github.com/sponsors/supabase)
+Developed as an academic group project.
+Vandan Wadhwa, Ghritika Setia, Khushnoor Kaur, Dollsy, Lavanya
